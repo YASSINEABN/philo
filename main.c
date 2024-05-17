@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "philo.h"
 
-int i = 0;
+int i = -1;
 
 size_t get_time()
 {
@@ -14,7 +14,13 @@ size_t get_time()
     void ft_sleep(t_philo *philo)
     {
         pthread_mutex_lock(&philo->mtx);
-        printf("philo id %d is eating\n",philo->id);
+        usleep(philo->table->time_to_sleep);
+        pthread_mutex_unlock(&philo->mtx);
+    }
+
+    void ft_eating(t_philo *philo)
+    {
+        pthread_mutex_lock(&philo->mtx);
         usleep(philo->table->time_to_eat);
         pthread_mutex_unlock(&philo->mtx);
     }
@@ -22,19 +28,17 @@ size_t get_time()
 void ft_philo(t_philo *philo )
 {
     size_t gettime = get_time();
-    while (1)
-    {
-     pthread_mutex_lock(&philo->table->forks[philo->fr_fork]);
+
+    pthread_mutex_lock(&philo->table->forks[philo->fr_fork]);
     printf(" id  == %d   has taken a fork at %ld\n",philo->id,gettime);
     pthread_mutex_lock(&philo->table->forks[philo->sc_fork]);
     printf(" id  == %d   has taken a fork at %ld\n",philo->id , gettime);
-    ft_sleep(philo);
+    printf(" id == %d is eating \n",philo->id);
+     ft_eating(philo);
+     printf(" id == %d is sleeping \n",philo->id);
+     ft_sleep(philo);
     pthread_mutex_unlock(&philo->table->forks[philo->fr_fork]);
     pthread_mutex_unlock(&philo->table->forks[philo->sc_fork]);
-
-    }
-    
-
 }
 
 void mutex_handle(pthread_mutex_t *mtx)

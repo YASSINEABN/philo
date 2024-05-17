@@ -19,7 +19,7 @@ typedef struct philo
     pthread_mutex_t mtx;
     int fr_fork;
     int sc_fork;
-    
+    int died;
 }t_philo;
 
 typedef struct  s_table
