@@ -35,10 +35,10 @@ void *application(void *arg) {
     
     while (!philo->table->philo_died) {
         pthread_mutex_lock(&philo->table->forks[philo->fr_fork]);
-        printf("Philosopher %d has taken fork %d\n", philo->id, philo->fr_fork);
+        printf("%ld %d has taken fork \n", get_time() - philo->table->time_start,philo->id);
         
         pthread_mutex_lock(&philo->table->forks[philo->sc_fork]);
-        printf("Philosopher %d has taken fork %d\n", philo->id, philo->sc_fork);
+        printf("%ld %d has taken fork \n",get_time() - philo->table->time_start, philo->id);
         
         printf("%ld %d is eating\n", get_time() - philo->table->time_start, philo->id);
         ft_eating(philo);
