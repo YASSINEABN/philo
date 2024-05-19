@@ -19,7 +19,7 @@ typedef struct philo
     pthread_mutex_t mtx;
     int fr_fork;
     int sc_fork;
-    int died;
+    
 }t_philo;
 
 typedef struct  s_table
@@ -32,6 +32,6 @@ typedef struct  s_table
     int nbr_limit_eat;
     t_philo *philos;
      pthread_mutex_t *forks;
-
-
+     int philo_died;
+     pthread_mutex_t *meal;
 }t_table;
