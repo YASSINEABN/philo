@@ -15,7 +15,10 @@ size_t get_time() {
 void ft_eating(t_philo *philo) {
 
     size_t start_time = get_time();
+    pthread_mutex_lock(&philo->meal);
     philo->last_meal = start_time;
+        pthread_mutex_unlock(&philo->meal);
+
     while (get_time() - start_time < philo->table->time_to_eat) {
         usleep(100);
     }
@@ -32,8 +35,10 @@ void *application(void *arg) {
     t_philo *philo = (t_philo *)arg;
     if (philo->id % 2 == 0)
         usleep(150);
-    
+    pthread_mutex_lock(&philo->table->philo_died_mutex);
     while (!philo->table->philo_died) {
+            pthread_mutex_unlock(&philo->table->philo_died_mutex);
+
         pthread_mutex_lock(&philo->table->forks[philo->fr_fork]);
         printf("%ld %d has taken fork \n", get_time() - philo->table->time_start,philo->id);
         
@@ -51,24 +56,38 @@ void *application(void *arg) {
 
         printf("%ld %d is sleeping\n", get_time() - philo->table->time_start, philo->id);
         ft_sleeping(philo);
-        
+    
         printf("%ld %d is thinking\n", get_time() - philo->table->time_start, philo->id);
     }
+        pthread_mutex_unlock(&philo->table->philo_died_mutex);
+
     return NULL;
 }
 
 int monitor_philos(t_table *table) {
+    pthread_mutex_lock(&table->philo_died_mutex);
+    
     while (!table->philo_died) {
+            pthread_mutex_unlock(&table->philo_died_mutex);
+
         for (int i = 0; i < table->nbr_philos; i++) {
             pthread_mutex_lock(&table->philos[i].mtx);
+            pthread_mutex_lock(&table->philos[i].meal);
             if (get_time() - table->philos[i].last_meal > table->time_to_die) {
+                            pthread_mutex_unlock(&table->philos[i].meal);
+
                 table->philo_died = 1;
                 printf("%ld %d died\n", get_time() - table->time_start, table->philos[i].id);
                 pthread_mutex_unlock(&table->philos[i].mtx);
+
                 exit(1);
             }
+                                        pthread_mutex_unlock(&table->philos[i].meal);
+
             pthread_mutex_unlock(&table->philos[i].mtx);
         }
+            pthread_mutex_unlock(&table->philo_died_mutex);
+
         usleep(100);
     }
 }
@@ -98,7 +117,6 @@ void init_struct(int argc, char **argv, t_table *table) {
     table->nbr_philos = atoi(argv[0]);
     table->philos = malloc(sizeof(t_philo) * table->nbr_philos);
     table->forks = malloc(sizeof(pthread_mutex_t) * table->nbr_philos);
-    table->meal = malloc(sizeof(pthread_mutex_t));
     table->time_to_die = atoi(argv[1]);
     table->time_to_eat = atoi(argv[2]);
     table->time_to_sleep = atoi(argv[3]);
@@ -117,8 +135,11 @@ void init_struct(int argc, char **argv, t_table *table) {
         table->philos[i].table = table;
         pthread_mutex_init(&table->philos[i].mtx, NULL);
         pthread_mutex_init(&table->forks[i], NULL);
+         pthread_mutex_init(&table->philos[i].meal,NULL);
     }
-    pthread_mutex_init(table->meal ,NULL);
+    pthread_mutex_init(&table->philo_died_mutex ,NULL);
+       
+
 }
 
 int main(int argc, char **argv) {
