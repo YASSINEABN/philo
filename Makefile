@@ -10,13 +10,13 @@ SRC = \
 	utils/is_eating.c \
 	utils/get_time.c \
 	utils/routines.c \
-	utils/parse.c
+	utils/help.c
 
 OBJ = $(SRC:.c=.o)
 
 NAME = philo
 
-CFLAGS = -Wall -Werror -Wextra -fsanitize=address 
+CFLAGS = -Wall -Werror -Wextra -fsanitize=thread -g3
 
 all : $(NAME)
 

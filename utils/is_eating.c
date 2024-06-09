@@ -14,12 +14,12 @@
 
 int	eating_checkers(t_philo *philo)
 {
-	if ( philo->eat == 0)
+	if (philo->eat == 0)
 		return (1);
 	if (take_forks(philo))
 		return (1);
 	pthread_mutex_lock(&philo->table->death_flag);
-	if (philo->table->death== 1)
+	if (philo->table->death == 1)
 	{
 		pthread_mutex_unlock(&philo->table->death_flag);
 		return (1);
@@ -43,9 +43,9 @@ int	is_eating(t_philo *philo)
 		philo->eat--;
 	if (philo->eat == 0)
 	{
-	pthread_mutex_unlock(&philo->mtx);
-	pthread_mutex_unlock(&philo->table->forks[philo->r_fork]);
-	pthread_mutex_unlock(&philo->table->forks[philo->l_fork]);
+		pthread_mutex_unlock(&philo->mtx);
+		pthread_mutex_unlock(&philo->table->forks[philo->r_fork]);
+		pthread_mutex_unlock(&philo->table->forks[philo->l_fork]);
 		return (1);
 	}
 	pthread_mutex_unlock(&philo->mtx);

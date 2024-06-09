@@ -28,7 +28,7 @@ int	checkers(t_philo *philo)
 {
 	if (check_death_flag(philo))
 		return (1);
-	 pthread_mutex_lock(&philo->mtx);
+	pthread_mutex_lock(&philo->mtx);
 	if (philo->eat == 0)
 	{
 		pthread_mutex_unlock(&philo->mtx);
@@ -53,7 +53,6 @@ void	*supervisor(void *arg)
 	{
 		if (checkers(philo))
 			return (NULL);
-		
 		if (get_time()
 			- philo->last_meal >= (unsigned long)philo->table->time_to_die)
 		{

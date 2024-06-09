@@ -6,7 +6,7 @@
 /*   By: yaboulan <yaboulan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 17:28:10 by ibenaiss          #+#    #+#             */
-/*   Updated: 2024/06/09 16:01:16 by yaboulan         ###   ########.fr       */
+/*   Updated: 2024/06/09 16:43:44 by yaboulan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,15 @@ int	case_one_philo(t_philo *philo, t_table *table)
 
 int	main(int ac, char **av)
 {
-	 t_table	table;
-	 t_philo	*philo;
+	t_table	table;
+	t_philo	*philo;
 
-	// if (!parse(&table, ac, av))
-	// 	return (1);
-	if(ac == 1)
-		return 1;
+	if (ac == 1)
+		return (1);
 	philo = malloc(sizeof(t_philo) * ft_atoi(av[1]));
 	if (!philo)
 		return (1);
-
-	if (philosophers(&table, philo, av +1 , ac) == 1)
+	if (philosophers(&table, philo, av + 1, ac) == 1)
 		return (1);
 	else
 		return (0);
