@@ -1,3 +1,4 @@
+cc = cc
 SRC = \
 	main.c \
 	utils/philo_init.c \
@@ -21,18 +22,12 @@ CFLAGS = -Wall -Werror -Wextra -fsanitize=thread -g3
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	@cc $(CFLAGS) $(OBJ) -o $(NAME) > /dev/null
+	$(cc) $(CFLAGS) $(OBJ) -o $(NAME) 
 
 fclean : clean
-		@echo full cleaning of $(NAME) ...
-		@$(RM) -f $(NAME)
-		@sleep 0.5
-		@echo $(NAME) cleaned.
+		$(RM) -f $(NAME)
 
 clean :
-		@echo cleaning $(NAME) ...
-		@$(RM) -f $(OBJ)
-		@sleep 0.5
-		@echo $(NAME) cleaned.
+		$(RM) -f $(OBJ)
 
 re : fclean all
