@@ -6,7 +6,7 @@
 /*   By: yaboulan <yaboulan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 22:56:02 by yaboulan          #+#    #+#             */
-/*   Updated: 2024/06/08 18:22:33 by yaboulan         ###   ########.fr       */
+/*   Updated: 2024/06/09 16:02:04 by yaboulan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ typedef struct s_philo
 	int				eat;
 	int				i;
 	unsigned long	last_meal;
-	int				has_finished_eating;
 	pthread_mutex_t	mtx;
 	t_table			*table;
 	pthread_t		thread_id;
@@ -68,5 +67,6 @@ int					checkers(t_philo *philo);
 void				*supervisor(void *arg);
 void				*dinning_philo(void *arg);
 void switch_forks(t_philo *philo , int *first_fork , int *second_fork);
+int	case_one_philo(t_philo *philo, t_table *table);
 
 #endif

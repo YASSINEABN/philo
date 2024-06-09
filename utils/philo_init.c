@@ -6,7 +6,7 @@
 /*   By: yaboulan <yaboulan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 17:29:23 by ibenaiss          #+#    #+#             */
-/*   Updated: 2024/06/08 18:40:21 by yaboulan         ###   ########.fr       */
+/*   Updated: 2024/06/09 16:20:30 by yaboulan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,14 @@ void	*dinning_philo(void *arg)
 	pthread_t	supervisor_thread_id;
 
 	philo = (t_philo *)arg;
+	
+	if (philo->table->philo_num == 1)
+	{
+		case_one_philo(&philo[0], philo->table);
+		return (0);
+	}
+	
+	
 	if (philo->id % 2 == 0)
 		usleep(100);
 	if (pthread_create(&supervisor_thread_id, NULL, &supervisor, (void *)philo))
@@ -41,7 +49,6 @@ void	philo_init_helper(t_philo *philo, t_table *table)
 	{
 		philo[i].eat = table->num_of_time_to_eat;
 		philo[i].table = table;
-		philo[i].has_finished_eating = 0;
 		philo[i].id = i + 1;
 		philo[i].r_fork = i;
 		philo[i].l_fork = (i + 1) % table->philo_num;
@@ -151,13 +158,22 @@ int	philosophers(t_table *table, t_philo *philo, char **av , int ac)
 	i = -1;
 	if (philo_init(table, philo, av, ac))
 		return (1);
+	
 	table->start_time = get_time();
+	// 	if (table->philo_num == 1)
+	// {
+	// 	case_one_philo(&philo[0], table);
+	// 	free(table->forks);
+	// 	 free(philo);
+	// 	return (0);
+	// }
 	while (++i < table->philo_num)
 	{
 		philo[i].last_meal = get_time();
 		pthread_create(&philo[i].thread_id, NULL, dinning_philo, &philo[i]);
 		usleep(1);
 	}
+
 	i = -1;
 	while (++i < table->philo_num)
 		pthread_join(philo[i].thread_id, NULL);

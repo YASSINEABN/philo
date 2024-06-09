@@ -16,7 +16,7 @@ OBJ = $(SRC:.c=.o)
 
 NAME = philo
 
-CFLAGS = -Wall -Werror -Wextra -fsanitize=thread -g3
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address 
 
 all : $(NAME)
 

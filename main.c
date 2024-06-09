@@ -6,7 +6,7 @@
 /*   By: yaboulan <yaboulan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 17:28:10 by ibenaiss          #+#    #+#             */
-/*   Updated: 2024/06/08 18:31:50 by yaboulan         ###   ########.fr       */
+/*   Updated: 2024/06/09 16:01:16 by yaboulan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,7 @@ int	main(int ac, char **av)
 	philo = malloc(sizeof(t_philo) * ft_atoi(av[1]));
 	if (!philo)
 		return (1);
-	if (table.philo_num == 1)
-	{
-		case_one_philo(&philo[0], &table);
-		free(philo);
-		return (0);
-	}
+
 	if (philosophers(&table, philo, av +1 , ac) == 1)
 		return (1);
 	else
