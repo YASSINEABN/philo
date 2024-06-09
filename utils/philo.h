@@ -6,11 +6,9 @@
 /*   By: yaboulan <yaboulan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 22:02:13 by yaboulan          #+#    #+#             */
-/*   Updated: 2024/06/09 22:02:14 by yaboulan         ###   ########.fr       */
+/*   Updated: 2024/06/09 22:04:08 by yaboulan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #ifndef PHILO_H
 # define PHILO_H
